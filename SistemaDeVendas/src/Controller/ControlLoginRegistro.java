@@ -11,8 +11,9 @@ import Model.Usuario;
 
 import View.Login;
 import View.MenuAdmin;
-import View.MenuVendedor;
+
 import View.RegistroUsuario;
+import View.TelaVendedor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -49,6 +50,7 @@ public class ControlLoginRegistro implements ActionListener {
 
         //Login
         this.log.btEntrar.addActionListener(this);
+        this.log.btnRegistrar.addActionListener(this);
 
     }
 
@@ -90,7 +92,7 @@ public class ControlLoginRegistro implements ActionListener {
       //Tela de login
     public void LoginUser() {
         MenuAdmin ma = new MenuAdmin();
-        MenuVendedor mv = new MenuVendedor();
+        TelaVendedor tv = new TelaVendedor();
        
         String us = log.tUser.getText();
         String pw = log.tPass.getText();
@@ -103,8 +105,8 @@ public class ControlLoginRegistro implements ActionListener {
 
         if (met.Autenticar(us, pw)) {
 
-           mv.setVisible(true);
-          
+           tv.setVisible(true);
+          tv.NomeVendedor.setText(us);
             JOptionPane.showMessageDialog(null, "Login feito com Sucesso " + txtnome);
             
             
@@ -141,6 +143,9 @@ public class ControlLoginRegistro implements ActionListener {
             LoginUser();
         
            }
+        if (ae.getSource() == log.btnRegistrar){
+            reg.setVisible(true);
+        }
         }
     
     
