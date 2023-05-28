@@ -11,9 +11,10 @@ import Model.Usuario;
 
 import View.Login;
 import View.MenuAdmin;
+import View.MenuUsuario;
 
 import View.RegistroUsuario;
-import View.TelaVendedor;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -30,7 +31,7 @@ public class ControlLoginRegistro implements ActionListener {
     Administrador y = new Administrador();
     Login log = new Login();
     RegistroUsuario reg = new RegistroUsuario();
-    MenuAdmin cm ;
+    
     
     
 
@@ -86,36 +87,39 @@ public class ControlLoginRegistro implements ActionListener {
         }
 
     }
+      
+      public void Limpar(){
+          log.tUser.setText("");
+          log.tPass.setText("");
+      }
   
 
       
       //Tela de login
     public void LoginUser() {
         MenuAdmin ma = new MenuAdmin();
-        TelaVendedor tv = new TelaVendedor();
+        MenuUsuario mu = new MenuUsuario();
        
         String us = log.tUser.getText();
         String pw = log.tPass.getText();
         
-        String txtnome;
-        txtnome = us;
-        
        
-        
-
         if (met.Autenticar(us, pw)) {
 
-           tv.setVisible(true);
-          tv.NomeVendedor.setText(us);
-            JOptionPane.showMessageDialog(null, "Login feito com Sucesso " + txtnome);
-            
+          new MenuUsuario(us).setVisible(true);
+       
+            JOptionPane.showMessageDialog(null, "Login feito com Sucesso ");
+            Limpar();
             
            
         }else if(met.AutenticarAdmin(us,pw)) {
-            ma.setVisible(true);
-            JOptionPane.showMessageDialog(null, "Login feito com Sucesso " + txtnome);
+          
+            new MenuAdmin(us).setVisible(true);
+            
+            JOptionPane.showMessageDialog(null, "Login feito com Sucesso " );
 
             // ma.recebendo(log.tUser.getText());
+            Limpar();
           
             
           
@@ -168,6 +172,7 @@ public class ControlLoginRegistro implements ActionListener {
 
         return user;
     }
+        
         
         
 

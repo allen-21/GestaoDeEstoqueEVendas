@@ -7,6 +7,8 @@ package View;
 import Controller.ControlLoginRegistro;
 import Model.Administrador;
 import Model.Usuario;
+import View.MenuAdmin;
+import View.RegistroUsuario;
 
 /**
  *

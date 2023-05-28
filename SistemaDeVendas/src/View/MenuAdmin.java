@@ -23,6 +23,10 @@ public class MenuAdmin extends javax.swing.JFrame {
     public MenuAdmin() {
         initComponents();
     }
+    public MenuAdmin(String user) {
+        initComponents();
+        txtuser.setText(user);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,7 +39,7 @@ public class MenuAdmin extends javax.swing.JFrame {
 
         jpPrincipal = new javax.swing.JPanel();
         jbCabcalho = new javax.swing.JPanel();
-        txtTuser = new javax.swing.JLabel();
+        txtuser = new javax.swing.JLabel();
         jpMenu = new javax.swing.JPanel();
         jpCadastroProduto = new javax.swing.JPanel();
         jCadastroProduto = new javax.swing.JLabel();
@@ -53,9 +57,9 @@ public class MenuAdmin extends javax.swing.JFrame {
 
         jbCabcalho.setBackground(new java.awt.Color(255, 153, 0));
 
-        txtTuser.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        txtTuser.setForeground(new java.awt.Color(255, 255, 255));
-        txtTuser.setText("USER");
+        txtuser.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+        txtuser.setForeground(new java.awt.Color(255, 255, 255));
+        txtuser.setText("USER");
 
         javax.swing.GroupLayout jbCabcalhoLayout = new javax.swing.GroupLayout(jbCabcalho);
         jbCabcalho.setLayout(jbCabcalhoLayout);
@@ -63,14 +67,14 @@ public class MenuAdmin extends javax.swing.JFrame {
             jbCabcalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jbCabcalhoLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(txtTuser)
+                .addComponent(txtuser)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jbCabcalhoLayout.setVerticalGroup(
             jbCabcalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jbCabcalhoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtTuser)
+                .addComponent(txtuser)
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
@@ -314,7 +318,8 @@ public class MenuAdmin extends javax.swing.JFrame {
 
     private void jpConsultaProdutoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpConsultaProdutoMousePressed
         // TODO add your handling code here:
-        consultarProduto();
+       consultarProduto();
+       
     }//GEN-LAST:event_jpConsultaProdutoMousePressed
 
     private void jpRelatoriosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpRelatoriosMousePressed
@@ -323,7 +328,8 @@ public class MenuAdmin extends javax.swing.JFrame {
 
     private void txtConsultaProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtConsultaProdutoMouseClicked
         // TODO add your handling code here:
-        consultarProduto();
+       consultarProduto();
+      
     }//GEN-LAST:event_txtConsultaProdutoMouseClicked
 
     private void jlRelatriosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlRelatriosMousePressed
@@ -388,9 +394,9 @@ public class MenuAdmin extends javax.swing.JFrame {
     
       private CadastroAlteracaoProduto cap;
      private ConsultaProduto cp;
+  
      
-
-
+       
     public JDesktopPane getPainelPrincipal() {
         return PainelPrincipal;
     }
@@ -398,6 +404,10 @@ public class MenuAdmin extends javax.swing.JFrame {
     public void setPainelPrincipal(JDesktopPane PainelPrincipal) {
         this.PainelPrincipal = PainelPrincipal;
     }
+    
+  
+
+
     
      //CADASTRAR PRODUTO
     public void cadastrarProduto(){
@@ -488,6 +498,6 @@ public class MenuAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jpRelatorios;
     private javax.swing.JLabel txtCadastroProduto;
     private javax.swing.JLabel txtConsultaProduto;
-    private javax.swing.JLabel txtTuser;
+    private javax.swing.JLabel txtuser;
     // End of variables declaration//GEN-END:variables
 }

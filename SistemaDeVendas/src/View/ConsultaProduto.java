@@ -252,7 +252,7 @@ public class ConsultaProduto extends javax.swing.JInternalFrame {
            
             
             //mostro a tela no painel principal
-            this.getParent().add(cadastroalteracaoproduto);//ESTAAAAA DANDO ERRRRROOOOOOO VER COM PROFESSOR
+            this.getParent().add(cadastroalteracaoproduto);
             cadastroalteracaoproduto.setVisible(true);
             
             //coloco ela na frente de todas
