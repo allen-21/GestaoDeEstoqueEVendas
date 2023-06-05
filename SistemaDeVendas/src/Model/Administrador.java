@@ -13,10 +13,11 @@ public class Administrador extends Usuario {
     public Administrador() {
     }
 
-    public Administrador(String nome, String apelido, String morada, String usuario, String senha) {
-        super(nome, apelido, morada, usuario, senha);
+    public Administrador(String apelido, String usuario, String senha) {
+        super(apelido, usuario, senha);
     }
 
+   
   
 
    

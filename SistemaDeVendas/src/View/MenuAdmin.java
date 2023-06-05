@@ -4,11 +4,12 @@
  */
 package View;
 
-
+import java.awt.Color;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /**
@@ -23,6 +24,7 @@ public class MenuAdmin extends javax.swing.JFrame {
     public MenuAdmin() {
         initComponents();
     }
+
     public MenuAdmin(String user) {
         initComponents();
         txtuser.setText(user);
@@ -40,16 +42,16 @@ public class MenuAdmin extends javax.swing.JFrame {
         jpPrincipal = new javax.swing.JPanel();
         jbCabcalho = new javax.swing.JPanel();
         txtuser = new javax.swing.JLabel();
+        Sair = new javax.swing.JLabel();
         jpMenu = new javax.swing.JPanel();
+        Menu = new javax.swing.JLabel();
+        jpRelatorios = new javax.swing.JPanel();
+        txtRelatrios = new javax.swing.JLabel();
         jpCadastroProduto = new javax.swing.JPanel();
-        jCadastroProduto = new javax.swing.JLabel();
         txtCadastroProduto = new javax.swing.JLabel();
         jpConsultaProduto = new javax.swing.JPanel();
         txtConsultaProduto = new javax.swing.JLabel();
-        jpRelatorios = new javax.swing.JPanel();
-        jlRelatrios = new javax.swing.JLabel();
         jpConsultarUsuarios = new javax.swing.JPanel();
-        jConsultarUsuarios = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         PainelPrincipal = new javax.swing.JDesktopPane();
 
@@ -61,6 +63,14 @@ public class MenuAdmin extends javax.swing.JFrame {
         txtuser.setForeground(new java.awt.Color(255, 255, 255));
         txtuser.setText("USER");
 
+        Sair.setBackground(new java.awt.Color(255, 255, 255));
+        Sair.setText("Sair");
+        Sair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SairMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jbCabcalhoLayout = new javax.swing.GroupLayout(jbCabcalho);
         jbCabcalho.setLayout(jbCabcalhoLayout);
         jbCabcalhoLayout.setHorizontalGroup(
@@ -68,17 +78,59 @@ public class MenuAdmin extends javax.swing.JFrame {
             .addGroup(jbCabcalhoLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(txtuser)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Sair)
+                .addGap(34, 34, 34))
         );
         jbCabcalhoLayout.setVerticalGroup(
             jbCabcalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jbCabcalhoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtuser)
+                .addGroup(jbCabcalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtuser)
+                    .addComponent(Sair))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
         jpMenu.setBackground(new java.awt.Color(255, 102, 0));
+
+        Menu.setBackground(new java.awt.Color(255, 255, 255));
+        Menu.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        Menu.setForeground(new java.awt.Color(255, 255, 255));
+        Menu.setText("MENU PRINCIPAL");
+
+        jpRelatorios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jpRelatoriosMousePressed(evt);
+            }
+        });
+
+        txtRelatrios.setText("VENDAS REALIZADAS");
+        txtRelatrios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtRelatriosMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txtRelatriosMousePressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpRelatoriosLayout = new javax.swing.GroupLayout(jpRelatorios);
+        jpRelatorios.setLayout(jpRelatoriosLayout);
+        jpRelatoriosLayout.setHorizontalGroup(
+            jpRelatoriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatoriosLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtRelatrios)
+                .addGap(61, 61, 61))
+        );
+        jpRelatoriosLayout.setVerticalGroup(
+            jpRelatoriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatoriosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtRelatrios, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         jpCadastroProduto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -86,10 +138,10 @@ public class MenuAdmin extends javax.swing.JFrame {
             }
         });
 
-        jCadastroProduto.setText("CADASTRAR PRODUTO");
-        jCadastroProduto.addMouseListener(new java.awt.event.MouseAdapter() {
+        txtCadastroProduto.setText("CADASTRAR PRODUTO");
+        txtCadastroProduto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jCadastroProdutoMouseClicked(evt);
+                txtCadastroProdutoMouseClicked(evt);
             }
         });
 
@@ -99,21 +151,16 @@ public class MenuAdmin extends javax.swing.JFrame {
             jpCadastroProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpCadastroProdutoLayout.createSequentialGroup()
                 .addContainerGap(61, Short.MAX_VALUE)
-                .addComponent(jCadastroProduto)
+                .addComponent(txtCadastroProduto)
                 .addGap(46, 46, 46))
         );
         jpCadastroProdutoLayout.setVerticalGroup(
             jpCadastroProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpCadastroProdutoLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jCadastroProduto)
+                .addComponent(txtCadastroProduto)
                 .addContainerGap(16, Short.MAX_VALUE))
         );
-
-        txtCadastroProduto.setBackground(new java.awt.Color(255, 255, 255));
-        txtCadastroProduto.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        txtCadastroProduto.setForeground(new java.awt.Color(255, 255, 255));
-        txtCadastroProduto.setText("MENU PRINCIPAL");
 
         jpConsultaProduto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -145,49 +192,9 @@ public class MenuAdmin extends javax.swing.JFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        jpRelatorios.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jpRelatoriosMousePressed(evt);
-            }
-        });
-
-        jlRelatrios.setText("RELATORIOS");
-        jlRelatrios.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jlRelatriosMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jlRelatriosMousePressed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jpRelatoriosLayout = new javax.swing.GroupLayout(jpRelatorios);
-        jpRelatorios.setLayout(jpRelatoriosLayout);
-        jpRelatoriosLayout.setHorizontalGroup(
-            jpRelatoriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatoriosLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jlRelatrios, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61))
-        );
-        jpRelatoriosLayout.setVerticalGroup(
-            jpRelatoriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpRelatoriosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jlRelatrios, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         jpConsultarUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jpConsultarUsuariosMousePressed(evt);
-            }
-        });
-
-        jConsultarUsuarios.setText("CONSULTAR USUARIOS");
-        jConsultarUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jConsultarUsuariosMouseClicked(evt);
             }
         });
 
@@ -195,17 +202,11 @@ public class MenuAdmin extends javax.swing.JFrame {
         jpConsultarUsuarios.setLayout(jpConsultarUsuariosLayout);
         jpConsultarUsuariosLayout.setHorizontalGroup(
             jpConsultarUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpConsultarUsuariosLayout.createSequentialGroup()
-                .addContainerGap(64, Short.MAX_VALUE)
-                .addComponent(jConsultarUsuarios)
-                .addGap(43, 43, 43))
+            .addGap(0, 276, Short.MAX_VALUE)
         );
         jpConsultarUsuariosLayout.setVerticalGroup(
             jpConsultarUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpConsultarUsuariosLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jConsultarUsuarios)
-                .addContainerGap(17, Short.MAX_VALUE))
+            .addGap(0, 51, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jpMenuLayout = new javax.swing.GroupLayout(jpMenu);
@@ -214,7 +215,7 @@ public class MenuAdmin extends javax.swing.JFrame {
             jpMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpMenuLayout.createSequentialGroup()
                 .addGap(58, 58, 58)
-                .addComponent(txtCadastroProduto)
+                .addComponent(Menu)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jpMenuLayout.createSequentialGroup()
                 .addContainerGap()
@@ -229,7 +230,7 @@ public class MenuAdmin extends javax.swing.JFrame {
             jpMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpMenuLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addComponent(txtCadastroProduto)
+                .addComponent(Menu)
                 .addGap(18, 18, 18)
                 .addComponent(jpRelatorios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -314,48 +315,103 @@ public class MenuAdmin extends javax.swing.JFrame {
     private void jpCadastroProdutoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpCadastroProdutoMousePressed
         // TODO add your handling code here:
         cadastrarProduto();
+       jpCadastroProduto.setBackground(Color.red);
+          txtCadastroProduto.setForeground(Color.WHITE);
+          
+           jpConsultaProduto.setBackground(new Color(242,242,242));
+          txtConsultaProduto.setForeground(Color.black);
+          
+            jpRelatorios.setBackground(new Color(242,242,242));
+           txtRelatrios.setForeground(Color.BLACK);
+          
     }//GEN-LAST:event_jpCadastroProdutoMousePressed
 
     private void jpConsultaProdutoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpConsultaProdutoMousePressed
         // TODO add your handling code here:
-       consultarProduto();
-       
+        consultarProduto();
+        jpConsultaProduto.setBackground(Color.red);
+          txtConsultaProduto.setForeground(Color.WHITE);
+          
+          jpCadastroProduto.setBackground(new Color(242,242,242));
+          txtCadastroProduto.setForeground(Color.BLACK);
+
+            jpRelatorios.setBackground(new Color(242,242,242));
+           txtRelatrios.setForeground(Color.BLACK);
+           
     }//GEN-LAST:event_jpConsultaProdutoMousePressed
 
     private void jpRelatoriosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpRelatoriosMousePressed
         // TODO add your handling code here:
+        Relatorio();
+          jpRelatorios.setBackground(Color.red);
+          txtRelatrios.setForeground(Color.WHITE);
+          
+           jpConsultaProduto.setBackground(new Color(242,242,242));
+          txtConsultaProduto.setForeground(Color.BLACK);
+          
+          jpCadastroProduto.setBackground(new Color(242,242,242));
+          txtCadastroProduto.setForeground(Color.BLACK);
+          
+        
     }//GEN-LAST:event_jpRelatoriosMousePressed
 
     private void txtConsultaProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtConsultaProdutoMouseClicked
         // TODO add your handling code here:
-       consultarProduto();
-      
+        consultarProduto();
+         jpConsultaProduto.setBackground(Color.red);
+          txtConsultaProduto.setForeground(Color.WHITE);
+          
+            jpRelatorios.setBackground(new Color(242,242,242));
+           txtRelatrios.setForeground(Color.BLACK);
+           
+           jpCadastroProduto.setBackground(new Color(242,242,242));
+          txtCadastroProduto.setForeground(Color.BLACK);
+
     }//GEN-LAST:event_txtConsultaProdutoMouseClicked
 
-    private void jlRelatriosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlRelatriosMousePressed
+    private void txtRelatriosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtRelatriosMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jlRelatriosMousePressed
+    }//GEN-LAST:event_txtRelatriosMousePressed
 
-    private void jlRelatriosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlRelatriosMouseClicked
+    private void txtRelatriosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtRelatriosMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jlRelatriosMouseClicked
+        Relatorio();
+        jpRelatorios.setBackground(Color.red);
+        txtRelatrios.setForeground(Color.WHITE);
+        
+         jpConsultaProduto.setBackground(new Color(242,242,242));
+          txtConsultaProduto.setForeground(Color.black);
+          
+          jpCadastroProduto.setBackground(new Color(242,242,242));
+         txtCadastroProduto.setForeground(Color.BLACK);
+    }//GEN-LAST:event_txtRelatriosMouseClicked
 
-    private void jConsultarUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jConsultarUsuariosMouseClicked
-        // TODO add your handling code here:
-      //  RegistrarUsuario();
-    }//GEN-LAST:event_jConsultarUsuariosMouseClicked
-
-    private void jCadastroProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCadastroProdutoMouseClicked
+    private void txtCadastroProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCadastroProdutoMouseClicked
         // TODO add your handling code here:
         cadastrarProduto();
-    }//GEN-LAST:event_jCadastroProdutoMouseClicked
+         jpCadastroProduto.setBackground(Color.red);
+          txtCadastroProduto.setForeground(Color.WHITE);
+          
+           jpConsultaProduto.setBackground(new Color(242,242,242));
+          txtConsultaProduto.setForeground(Color.black);
+          
+            jpRelatorios.setBackground(new Color(242,242,242));
+           txtRelatrios.setForeground(Color.BLACK);
+           
+           
+    }//GEN-LAST:event_txtCadastroProdutoMouseClicked
 
     private void jpConsultarUsuariosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpConsultarUsuariosMousePressed
         // TODO add your handling code here:
-      //  RegistrarUsuario();
+        //  RegistrarUsuario();
     }//GEN-LAST:event_jpConsultarUsuariosMousePressed
 
- 
+    private void SairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SairMouseClicked
+        // TODO add your handling code here:
+        sairDaTela();
+        
+    }//GEN-LAST:event_SairMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -391,12 +447,11 @@ public class MenuAdmin extends javax.swing.JFrame {
             }
         });
     }
-    
-      private CadastroAlteracaoProduto cap;
-     private ConsultaProduto cp;
-  
-     
-       
+
+    private CadastroAlteracaoProduto cap;
+    private ConsultaProduto cp;
+    private VendasRealizadas rv;
+
     public JDesktopPane getPainelPrincipal() {
         return PainelPrincipal;
     }
@@ -404,92 +459,112 @@ public class MenuAdmin extends javax.swing.JFrame {
     public void setPainelPrincipal(JDesktopPane PainelPrincipal) {
         this.PainelPrincipal = PainelPrincipal;
     }
-    
-  
 
-
-    
-     //CADASTRAR PRODUTO
-    public void cadastrarProduto(){
-         //verifica se a tela ja existe
-        if(cap == null )
-        {   
+    //Relatorio
+    public void Relatorio() {
+        //verifica se a tela ja existe
+        if (rv == null) {
             //se não existir faz uma tela
-           // pca = new ProdutoCadastroAlteracaoView();
+
+            rv = new VendasRealizadas();
+        }
+
+        //verifico se a tela ja esta no painel
+        if (!rv.isVisible()) {
+            //mostro a tela no painel principal caso nao esteja la
+            PainelPrincipal.add(rv);
+            rv.setVisible(true);
+        }
+
+        //coloco ela na frente de todas para todos os casos
+        rv.toFront();
+
+        //redimensiona tela para tamanho do painel
+        try {
+            rv.setMaximum(true);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(MenuAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        //retira o painel superior
+        ((BasicInternalFrameUI) rv.getUI()).setNorthPane(null);
+    }
+
+    //CADASTRAR PRODUTO
+    public void cadastrarProduto() {
+        //verifica se a tela ja existe
+        if (cap == null) {
+            //se não existir faz uma tela
             cap = new CadastroAlteracaoProduto();
         }
-        
-    
-        
+
         //verifico se a tela ja esta no painel
-        if(!cap.isVisible())
-        {    
-            //mostro a tela no painel principal caso nao esteja la
-            PainelPrincipal.add(cap);//ESTAAAAA DANDO ERRRRROOOOOOO VER COM PROFESSOR
+        if (!cap.isVisible()) {
+            PainelPrincipal.add(cap);//esta dando erro
             cap.setVisible(true);
         }
-        
+
         //coloco ela na frente de todas para todos os casos
         cap.toFront();
-        
+
         //redimensiona tela para tamanho do painel
         try {
             cap.setMaximum(true);
         } catch (PropertyVetoException ex) {
             Logger.getLogger(MenuAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         //retira o painel superior
-        ((BasicInternalFrameUI)cap.getUI()).setNorthPane(null);
+        ((BasicInternalFrameUI) cap.getUI()).setNorthPane(null);
     }
-    
-     //CONSULTAR PRODUTO
-    public void consultarProduto(){
+
+    //CONSULTAR PRODUTO
+    public void consultarProduto() {
         //verifica se a tela ja existe
-        if(cp == null )
-        {   
+        if (cp == null) {
             //se não existir faz uma tela
-           
+
             cp = new ConsultaProduto();
         }
-        
+
         //verifico se a tela ja esta no painel
-        if(!cp.isVisible())
-        {    
+        if (!cp.isVisible()) {
             //mostro a tela no painel principal caso nao esteja la
-            PainelPrincipal.add(cp);//ESTAAAAA DANDO ERRRRROOOOOOO VER COM PROFESSOR
+            PainelPrincipal.add(cp);//da erro
             cp.setVisible(true);
         }
-        
+
         //coloco ela na frente de todas para todos os casos
         cp.toFront();
-        
+
         //redimensiona tela para tamanho do painel
         try {
             cp.setMaximum(true);
         } catch (PropertyVetoException ex) {
             Logger.getLogger(MenuAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        //limpa tabela de pesquisa
-        cp.tableModelLimpar();
-        
-        //retira o painel superior
-        ((BasicInternalFrameUI)cp.getUI()).setNorthPane(null);
-    }
-    
-  
 
-    
-    
+        //limpa tabela de pesquisa
+        //cp.tableModelLimpar();
+
+        //retira o painel superior
+        ((BasicInternalFrameUI) cp.getUI()).setNorthPane(null);
+    }
+
+     private void sairDaTela() {
+        int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        if (resposta == JOptionPane.YES_OPTION) {
+            dispose();
+        }
+     }
+     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Menu;
     private javax.swing.JDesktopPane PainelPrincipal;
-    private javax.swing.JLabel jCadastroProduto;
-    private javax.swing.JLabel jConsultarUsuarios;
+    private javax.swing.JLabel Sair;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jbCabcalho;
-    private javax.swing.JLabel jlRelatrios;
     private javax.swing.JPanel jpCadastroProduto;
     private javax.swing.JPanel jpConsultaProduto;
     private javax.swing.JPanel jpConsultarUsuarios;
@@ -498,6 +573,7 @@ public class MenuAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jpRelatorios;
     private javax.swing.JLabel txtCadastroProduto;
     private javax.swing.JLabel txtConsultaProduto;
+    private javax.swing.JLabel txtRelatrios;
     private javax.swing.JLabel txtuser;
     // End of variables declaration//GEN-END:variables
 }

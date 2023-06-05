@@ -4,6 +4,8 @@
  */
 package Model.Dao;
 
+import Model.ItemVenda;
+import Model.Produto;
 import Model.Venda;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +13,10 @@ import java.util.ArrayList;
 
 import java.sql.ResultSet;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -40,7 +45,8 @@ public class VendaDao {
             ps.setFloat(6, venda.getPagamentoCartao());
             ps.setString(7, venda.getUsuario().getUser());
 
-            ps.execute();
+            ps.executeUpdate();
+
         } finally {
 
             if (ps != null && !ps.isClosed()) {
@@ -87,10 +93,44 @@ public class VendaDao {
         return null;
     }
 
+    public List<Venda> listartb() {
+
+        Connection con = Conexao2.getConnection();
+        PreparedStatement ps = null;
+        ResultSet result = null;
+        List<Venda> vendas = new ArrayList<>();
+
+        try {
+            ps = con.prepareStatement("SELECT * FROM vendas");
+            result = ps.executeQuery();
+
+            while (result.next()) {
+
+                Venda venda = new Venda();
+                venda.setId(result.getInt("id"));
+                Date data = new Date(result.getTimestamp("data").getTime());
+                venda.setData(data);
+                venda.setQtdItens(result.getInt("qtdItens"));
+                venda.setSubtotal(result.getFloat("subtotal"));
+                venda.setPagamentoDinheiro(result.getFloat("pagamentoDinheiro"));
+                venda.setPagamentoCartao(result.getFloat("pagamentoCartao"));
+                venda.getUsuario().setUser(result.getString("user"));
+                vendas.add(venda);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(VendaDao.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            Conexao2.closeConnection((com.mysql.jdbc.Connection) con, ps, result);
+        }
+        return vendas;
+
+    }
+
     public static List<Venda> listar() throws Exception {
 
         Connection cn = Conexao.conectar();
- PreparedStatement ps = null;
+        PreparedStatement ps = null;
         String sql = "SELECT id, data, qtdItens, subtotal, pagamentoDinheiro, "
                 + "pagamentoCartao, user "
                 + "FROM vendas";
@@ -134,13 +174,13 @@ public class VendaDao {
 
     }
 
-    public static List<Venda> procurar(String dataInicio, String dataFim)
+    public static List<Venda> procurar(String user)
             throws Exception {
 
         Connection cn = Conexao.conectar();
         String sql = "SELECT id, data, qtdItens, subtotal, pagamentoDinheiro, "
                 + "pagamentoCartao, user "
-                + "FROM vendas WHERE data BETWEEN ? AND ?";
+                + "FROM vendas WHERE user LIKE (?)";
         List<Venda> listaVendas = null;
 
         ResultSet result = null;
@@ -150,8 +190,7 @@ public class VendaDao {
 
             ps = cn.prepareStatement(sql);
 
-            ps.setString(1, dataInicio + " 00:00:00");
-            ps.setString(2, dataFim + " 23:59:59");
+            ps.setString(1, "%" + user + "%");
 
             result = ps.executeQuery();
 

@@ -13,7 +13,8 @@ public class ItemVenda extends Produto {
     private Integer idItem;
     private Integer idVenda;
     private Float valorTotal;
-
+  
+     
     public Integer getIdItem() {
         return idItem;
     }
@@ -37,6 +38,7 @@ public class ItemVenda extends Produto {
     public void setValorTotal(Float valorTotal) {
         this.valorTotal = valorTotal;
     }
+
 
  
     

@@ -5,6 +5,7 @@
 package View;
 
 import Controller.ProdutoController;
+import Model.Dao.ProdutoDAO;
 import Model.Produto;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -21,6 +22,9 @@ public class ConsultaProdutoVenda extends javax.swing.JInternalFrame {
      */
     public ConsultaProdutoVenda() {
         initComponents();
+        pesquisar();
+         verDados();
+        
     }
 
     /**
@@ -37,11 +41,16 @@ public class ConsultaProdutoVenda extends javax.swing.JInternalFrame {
         btnPesquisar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         produtoTabela = new javax.swing.JTable();
-        btnSair = new javax.swing.JButton();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
+            }
+        });
+
+        txtProdutoNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtProdutoNomeKeyReleased(evt);
             }
         });
 
@@ -114,18 +123,6 @@ public class ConsultaProdutoVenda extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(produtoTabela);
 
-        btnSair.setBackground(new java.awt.Color(0, 0, 0));
-        btnSair.setForeground(new java.awt.Color(255, 255, 255));
-        btnSair.setText("Sair");
-        btnSair.setMaximumSize(new java.awt.Dimension(79, 32));
-        btnSair.setMinimumSize(new java.awt.Dimension(79, 32));
-        btnSair.setPreferredSize(new java.awt.Dimension(79, 32));
-        btnSair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSairActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -137,13 +134,10 @@ public class ConsultaProdutoVenda extends javax.swing.JInternalFrame {
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtProdutoNome, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+                        .addComponent(txtProdutoNome)
                         .addGap(18, 18, 18)
                         .addComponent(btnPesquisar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -157,19 +151,17 @@ public class ConsultaProdutoVenda extends javax.swing.JInternalFrame {
                     .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-     //DECLARA O MODELO DE TABELA PARA SER USADO NA PESQUISA
+    //DECLARA O MODELO DE TABELA PARA SER USADO NA PESQUISA
     private DefaultTableModel tableModel;
     private TelaVendedor telaVendedor;
-    public MenuUsuario menuUsuario;
+    public TelaUsuario menuUsuario;
     public Produto produto;
-
 
     public Produto getProduto() {
         return produto;
@@ -178,30 +170,48 @@ public class ConsultaProdutoVenda extends javax.swing.JInternalFrame {
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
-    
 
+          public void verDados()  {
+         DefaultTableModel tableModel = (DefaultTableModel) produtoTabela.getModel();
+        
+        ProdutoDAO pdao = new ProdutoDAO();
+        ProdutoController pc = new ProdutoController();
+        tableModel.setNumRows(0);
+       
+        for (Produto p: pdao.listartb()){
+                
+                tableModel.addRow(new Object[]{
+                    
+                    p.getId(),
+                    p.getNome(),
+                    p.getQuantidade(),
+                    p.getValor()
+                        
+                        
+                });
+            }
+       
+    }
+    
     //FUNCAO PESQUISAR PRODUTO
-    public void pesquisar(){
+    public void pesquisar() {
         List<Produto> resultado = ProdutoController.procurar(
                 txtProdutoNome.getText());
-        
+
         //Obtém a tabela para trabalhar nela
         tableModel = (DefaultTableModel) produtoTabela.getModel();
-        
+
         //Limpa resultados anteriores
         tableModel.setRowCount(0);
-        
-        if (resultado != null && resultado.size() > 0)
-        {
+
+        if (resultado != null && resultado.size() > 0) {
             //Percorre a lista de resultados e os adiciona na tabela
-            for (int i = 0; i < resultado.size(); i++) 
-            {
-                
+            for (int i = 0; i < resultado.size(); i++) {
+
                 //Obtém cada item da lista de resultados
                 Produto produto = resultado.get(i);
 
-                if (produto != null) 
-                {
+                if (produto != null) {
                     //Cria arrai com resultados
                     Object[] dadosTabela = new Object[4];
                     //Cada dado na coluna correspondente
@@ -214,7 +224,7 @@ public class ConsultaProdutoVenda extends javax.swing.JInternalFrame {
                     tableModel.addRow(dadosTabela);
                 }
             }
-        }else{
+        } else {
 
             //Caso a pesquisa não tenha retornado resultados
             JOptionPane.showMessageDialog(rootPane,
@@ -223,9 +233,8 @@ public class ConsultaProdutoVenda extends javax.swing.JInternalFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    
-    
+
+
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         pesquisar();
     }//GEN-LAST:event_btnPesquisarActionPerformed
@@ -245,23 +254,23 @@ public class ConsultaProdutoVenda extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_produtoTabelaMouseClicked
 
-    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnSairActionPerformed
-
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
-           //Obtém a tabela para trabalhar nela
+        //Obtém a tabela para trabalhar nela
         tableModel = (DefaultTableModel) produtoTabela.getModel();
-        
+
         //Limpa resultados anteriores
         tableModel.setRowCount(0);
     }//GEN-LAST:event_formComponentShown
 
+    private void txtProdutoNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProdutoNomeKeyReleased
+        // TODO add your handling code here:
+        pesquisar();
+    }//GEN-LAST:event_txtProdutoNomeKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPesquisar;
-    private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable produtoTabela;

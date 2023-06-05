@@ -30,6 +30,9 @@ public class Venda {
        itensVenda = new ArrayList<ItemVenda>();
     }
     
+    
+    
+    
     public Integer getId() {
         return id;
     }
@@ -103,4 +106,9 @@ public class Venda {
     public void setQtdItens(Integer qtdItens) {
         this.qtdItens = qtdItens;
     }
+    
+    
+    
+
+
 }

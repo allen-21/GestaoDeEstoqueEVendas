@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -17,21 +18,21 @@ import java.sql.ResultSet;
 public class UsuarioDao {
 
     //Metodos para inserir usuario e administrador a Base de dados
-    public static boolean InsertUser(Usuario x) {
+    public static boolean InsertUser(Usuario x) throws ClassNotFoundException, SQLException {
         Connection cn = Conexao.conectar();
 
         PreparedStatement ps = null;
 
-        String sql = "insert into Usuario (nome,apelido,morada,usuario,senha,telefone) values (?,?,?,?,?,?)";
+        String sql = "insert into Usuario (apelido,usuario,senha) values (?,?,?)";
 
         try {
             ps = cn.prepareStatement(sql);
-            ps.setString(1, x.getNome());
-            ps.setString(2, x.getApelido());
-            ps.setString(3, x.getMorada());
-            ps.setString(4, x.getUser());
-            ps.setString(5, x.getSenha());
-            ps.setString(6, x.getTelefone());
+            
+            ps.setString(1, x.getApelido());
+           
+            ps.setString(2, x.getUser());
+            ps.setString(3, x.getSenha());
+            
             ps.execute();
             cn.close();
 
@@ -46,21 +47,19 @@ public class UsuarioDao {
 
     }
 
-    public static boolean InsertAdmin(Usuario x) {
+    public static boolean InsertAdmin(Usuario x) throws ClassNotFoundException, SQLException {
         Connection cn = Conexao.conectar();
 
         PreparedStatement ps = null;
 
-        String sql = "insert into Administrador (nome,apelido,morada,usuario,senha,telefone) values (?,?,?,?,?,?)";
+        String sql = "insert into Administrador (apelido,usuario,senha) values (?,?,?)";
 
         try {
             ps = cn.prepareStatement(sql);
-            ps.setString(1, x.getNome());
-            ps.setString(2, x.getApelido());
-            ps.setString(3, x.getMorada());
-            ps.setString(4, x.getUser());
-            ps.setString(5, x.getSenha());
-             ps.setString(6, x.getTelefone());
+            ps.setString(1, x.getApelido());
+           
+            ps.setString(2, x.getUser());
+            ps.setString(3, x.getSenha());
             ps.execute();
             cn.close();
 
@@ -76,7 +75,7 @@ public class UsuarioDao {
     }
 
     //Metodos para Autenticar os dados para o login
-    public static boolean Autenticar(String Puser, String Ppsw) {
+    public static boolean Autenticar(String Puser, String Ppsw) throws ClassNotFoundException, SQLException {
 
         Connection cn = Conexao.conectar();
         PreparedStatement ps = null;
@@ -105,7 +104,7 @@ public class UsuarioDao {
 
     }
 
-    public static boolean AutenticarAdmin(String Puser, String Ppsw) {
+    public static boolean AutenticarAdmin(String Puser, String Ppsw) throws ClassNotFoundException, SQLException {
 
         Connection cn = Conexao.conectar();
         PreparedStatement ps = null;
@@ -151,15 +150,14 @@ public class UsuarioDao {
             if (rs.next()) {
                 Usuario user = new Usuario() {
                 };
-                
+
                 user.setId(rs.getInt("Id"));
-                user.setNome(rs.getString("nome"));
+              
                 user.setApelido(rs.getString("apelido"));
-                user.setMorada(rs.getString("morada"));
+                
                 user.setUser(rs.getString("usuario"));
                 user.setSenha(rs.getString("senha"));
-                user.setTelefone(rs.getString("telefone"));
-                
+             
 
                 return user;
             }

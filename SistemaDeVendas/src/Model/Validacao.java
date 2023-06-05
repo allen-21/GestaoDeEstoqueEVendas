@@ -65,12 +65,9 @@ public class Validacao {
         return resposta;
     }
     
-        public static boolean vendaUsusario(String Nome, String user){
+        public static boolean vendaUsusario(String user){
         
-        if(Nome.equalsIgnoreCase("") || Nome == "")
-        {
-            return false;
-        }
+      
         if(user.equalsIgnoreCase("") || user == "")
         {
             return false;

@@ -6,34 +6,33 @@ package Model.Dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-
-
+import java.sql.SQLException;
 
 /**
  *
  * @author anibal
  */
 public class Conexao {
-    
-    public Connection con=null;
-    
-    public static Connection conectar(){
-        
-        Connection cn=null;
-        try{
-            
+
+ 
+    public Connection con = null;
+
+    public static Connection conectar() throws ClassNotFoundException,
+            SQLException {
+
+        Connection cn = null;
+        try {
+
             Class.forName("com.mysql.jdbc.Driver");
-            cn=DriverManager.getConnection("jdbc:mysql://localhost:3306/SistemaDeVenda","root","");
-            
-        }catch (Exception e){
-            
+            cn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SistemaDeVenda", "root", "");
+
+        } catch (Exception e) {
+
             System.out.println(String.valueOf(e));
         }
-        
+
         return cn;
     }
 
-  
-    
-    
+   
 }

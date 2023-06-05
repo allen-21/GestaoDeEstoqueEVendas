@@ -30,19 +30,20 @@ public class VendaController {
         return resposta;
     }
     
+    
     //PROCURAR/LISTAR
-    public static List<Venda> procurar(String dataInicio, String dataFim){
+    public static List<Venda> procurar(String user){
         List<Venda> listaResposta = null;
         
         //Tenta fazer a busca dos dados 
         try{
         
-            if (dataInicio == null || dataFim == null) {
+            if (user == null || "".equals(user)) {
                 
                 listaResposta = VendaDao.listar();
             } else {
               
-                listaResposta = VendaDao.procurar(dataInicio, dataFim);
+                listaResposta = VendaDao.procurar(user);
             }
 
         } catch (Exception e) {

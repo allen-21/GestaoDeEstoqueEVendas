@@ -5,15 +5,17 @@
 package View;
 
 import Controller.ProdutoController;
+import Model.Dao.ProdutoDAO;
 import Model.Produto;
 import java.beans.PropertyVetoException;
+import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import javax.swing.table.TableRowSorter;
 /**
  *
  * @author anibal
@@ -25,7 +27,17 @@ public class ConsultaProduto extends javax.swing.JInternalFrame {
      */
     public ConsultaProduto() {
         initComponents();
+        
+         DefaultTableModel tableModel = (DefaultTableModel) produtoTabela.getModel();
+         produtoTabela.setRowSorter(new TableRowSorter(tableModel));
+     
+        verDados();
+     
+ 
     }
+    
+       
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,14 +49,64 @@ public class ConsultaProduto extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        produtoTabela = new javax.swing.JTable();
         txtNome = new javax.swing.JTextField();
         btnPesquiar = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        produtoTabela = new javax.swing.JTable();
+
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameActivated(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jLabel1.setText("Nome Do Produto");
+
+        txtNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNomeKeyReleased(evt);
+            }
+        });
+
+        btnPesquiar.setBackground(new java.awt.Color(0, 102, 102));
+        btnPesquiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquiar.setText("Pesquisar");
+        btnPesquiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquiarActionPerformed(evt);
+            }
+        });
+
+        btnAlterar.setBackground(new java.awt.Color(255, 255, 51));
+        btnAlterar.setText("Alterar");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setBackground(new java.awt.Color(204, 0, 0));
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         produtoTabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -98,57 +160,29 @@ public class ConsultaProduto extends javax.swing.JInternalFrame {
         produtoTabela.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(produtoTabela);
 
-        btnPesquiar.setBackground(new java.awt.Color(0, 102, 102));
-        btnPesquiar.setForeground(new java.awt.Color(255, 255, 255));
-        btnPesquiar.setText("Pesquisar");
-        btnPesquiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPesquiarActionPerformed(evt);
-            }
-        });
-
-        btnAlterar.setBackground(new java.awt.Color(255, 255, 51));
-        btnAlterar.setText("Alterar");
-        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAlterarActionPerformed(evt);
-            }
-        });
-
-        btnEliminar.setBackground(new java.awt.Color(204, 0, 0));
-        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminar.setText("Eliminar");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(46, 46, 46)
-                                .addComponent(btnPesquiar)))
-                        .addContainerGap(324, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnEliminar)
                 .addGap(42, 42, 42)
                 .addComponent(btnAlterar)
                 .addGap(27, 27, 27))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(46, 46, 46)
+                        .addComponent(btnPesquiar)))
+                .addContainerGap(324, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,9 +193,9 @@ public class ConsultaProduto extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquiar))
-                .addGap(30, 30, 30)
+                .addGap(24, 24, 24)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAlterar)
                     .addComponent(btnEliminar))
@@ -286,14 +320,55 @@ public class ConsultaProduto extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btnAlterarActionPerformed
 
- //DECLARA O MODELO DE TABELA PARA SER USADO NA PESQUISA
+    private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
+     
+    }//GEN-LAST:event_formInternalFrameActivated
+
+    private void txtNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyReleased
+        // TODO add your handling code here:
+        pesquisar();
+       
+        
+        
+    }//GEN-LAST:event_txtNomeKeyReleased
+
+ 
+//DECLARA O MODELO DE TABELA PARA SER USADO NA PESQUISA
     private DefaultTableModel tableModel;
     
     //INSTANCIA DA TELA DE CADASTRO/ALTERACAO DE PRODUTO
     CadastroAlteracaoProduto cadastroalteracaoproduto;
+   
+    
+    public void verDados()  {
+         DefaultTableModel tableModel = (DefaultTableModel) produtoTabela.getModel();
+        
+        ProdutoDAO pdao = new ProdutoDAO();
+        ProdutoController pc = new ProdutoController();
+        tableModel.setNumRows(0);
+       
+        for (Produto p: pdao.listartb()){
+                
+                tableModel.addRow(new Object[]{
+                    
+                    p.getId(),
+                    p.getNome(),
+                    p.getCategoria(),
+                    p.getQuantidade(),
+                    p.getCusto(),
+                    p.getValor()
+                        
+                        
+                });
+            }
+       
+    }
     
     
-    //PESQUISAR PRODUTO
+    
+    
+    
+    //PESQUISAR PRODUTO    //PESQUISAR PRODUTO
     public void pesquisar(){
         List<Produto> resultado = ProdutoController.procurar(
                 txtNome.getText());
@@ -341,7 +416,7 @@ public class ConsultaProduto extends javax.swing.JInternalFrame {
     
     
      public void tableModelLimpar(){
-        //NAO ESTA SENDO USADO
+        
         if(tableModel==null)
         {
             //Obtém a tabela para trabalhar nela
@@ -351,6 +426,9 @@ public class ConsultaProduto extends javax.swing.JInternalFrame {
         tableModel.setRowCount(0);
     }
     
+  
+
+     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;

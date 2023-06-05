@@ -29,7 +29,7 @@ public class ProdutoController {
         
         return resposta;
     }
-    
+   
     //PROCURAR/LISTAR
     public static List<Produto> procurar(String nome){
         List<Produto> listaResposta = null;
@@ -102,6 +102,27 @@ public class ProdutoController {
             //tenta obter o produto procurado
            
             produto = ProdutoDAO.obter(id);
+        } 
+        catch (Exception e) 
+        {
+            //em caso de erro imprime erro 
+            e.printStackTrace();
+        }
+
+        return produto;
+        
+    }
+        //OBTER
+    public static Produto Listar() {
+        
+        //Instancia produto para retornar no fim da funcao
+        Produto produto =  new Produto();
+        
+        try 
+        {
+            //tenta obter o produto procurado
+           
+            produto = (Produto) ProdutoDAO.listar();
         } 
         catch (Exception e) 
         {

@@ -4,9 +4,11 @@
  */
 package Controller;
 
+
 import Model.Dao.ItensVendaDao;
 import Model.ItemVenda;
 import java.util.List;
+
 
 /**
  *
@@ -15,7 +17,7 @@ import java.util.List;
 public class ItensVendaController {
     
       //SALVAR
-    public static String salvar(ItemVenda itensVenda){
+  public static String salvar(ItemVenda itensVenda){
         
         String resposta = null;
         
@@ -23,6 +25,7 @@ public class ItensVendaController {
         try{
             
             ItensVendaDao.salvar(itensVenda);
+            
         }catch (Exception e){
             e.printStackTrace();
             resposta = "Erro na fonte de dados";

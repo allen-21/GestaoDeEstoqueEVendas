@@ -11,15 +11,16 @@ import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author anibal
  */
-public class ProdutoDAO  {
+public class ProdutoDAO {
 
-
-    public static void salvar(Produto produto) throws SQLException,Exception {
+    public static void salvar(Produto produto) throws SQLException, Exception {
 
         Connection cn = Conexao.conectar();
         PreparedStatement ps = null;
@@ -36,7 +37,7 @@ public class ProdutoDAO  {
             ps.setFloat(5, produto.getValor());
             ps.setString(6, produto.getDescricao());
             ps.execute();
-            
+
         } finally {
 
             if (ps != null && !ps.isClosed()) {
@@ -50,8 +51,7 @@ public class ProdutoDAO  {
 
     }
 
-   
-    public static void atualizar(Produto produtoAtualizado) throws SQLException,Exception {
+    public static void atualizar(Produto produtoAtualizado) throws SQLException, Exception {
 
         Connection cn = Conexao.conectar();
         PreparedStatement ps = null;
@@ -85,7 +85,6 @@ public class ProdutoDAO  {
 
     }
 
-   
     public static void excluir(int id) throws SQLException, Exception {
         Connection cn = Conexao.conectar();
         PreparedStatement ps = null;
@@ -152,8 +151,41 @@ public class ProdutoDAO  {
         return null;
     }
 
+    public List<Produto> listartb() {
 
-    public static List<Produto> listar() throws SQLException, Exception {
+         Connection  con = Conexao2.getConnection();
+          PreparedStatement ps = null;
+           ResultSet result = null;
+           List<Produto> produtos = new ArrayList<>();
+         
+        try {
+           ps = con.prepareStatement("SELECT * FROM produto");
+           result = ps.executeQuery();
+
+            while (result.next()) {
+              
+                Produto produto = new Produto();
+                produto.setId(result.getInt("id"));
+                produto.setNome(result.getString("nome"));
+                produto.setCategoria(result.getString("categoria"));
+                produto.setQuantidade(result.getInt("quantidade"));
+                produto.setCusto(result.getFloat("custo"));
+                produto.setValor(result.getFloat("valor"));
+                produto.setDescricao(result.getString("descricao"));
+                produtos.add(produto);
+               
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        }finally{
+            Conexao2.closeConnection((com.mysql.jdbc.Connection) con, ps, result);
+        }
+        return produtos;
+
+    }
+    
+     public static List<Produto> listar() throws SQLException, Exception {
 
         Connection cn = Conexao.conectar();
         PreparedStatement ps = null;
@@ -197,7 +229,7 @@ public class ProdutoDAO  {
 
     }
 
-   
+
     public static List<Produto> procurar(String nome) throws SQLException, Exception {
 
         Connection cn = Conexao.conectar();
